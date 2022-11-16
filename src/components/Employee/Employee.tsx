@@ -12,6 +12,7 @@ const Employee = () => {
     const[employees, setEmployees] = useState<IEmployee[]>([]);
     const[addEmployeeModal, setAddEmployeeModal] = useState<boolean>(false);
     const[editEmployeeModal, setEditEmployeeModal] = useState<boolean>(false);
+    const[deleteEmployeeModal, setDeleteEmployeeModal] = useState<boolean>(false);
 
   //calls for all employee when page is mounted
   useEffect(()=>{
@@ -36,6 +37,8 @@ const Employee = () => {
         setAddEmployeesModal={setAddEmployeeModal}
         editEmployeeModal={editEmployeeModal}
         setEditEmployeesModal={setEditEmployeeModal}
+        deleteEmployeeModal={deleteEmployeeModal}
+        setDeleteEmployeesModal={setDeleteEmployeeModal}
         />
     </Wrapper>  
   );

@@ -4,6 +4,7 @@ import AddEmployeeModal from "../AddEmployeeModal/AddEmployeeModal";
 import { RemoveRedEye, Create, Delete } from "@mui/icons-material";
 import EditEmployeeModal from "../EditEmployeeModal/EditEmployeeModal";
 import { useState } from "react";
+import DeleteEmployeeModal from "../DeleteEmployeeModal/DeleteEmployeeModal";
 
 const Wrapper = styled.div`
     width: 100%;
@@ -115,12 +116,14 @@ type EmployeeTableProps = {
     addEmployeeModal: boolean,
     setAddEmployeesModal: React.Dispatch<React.SetStateAction<boolean>>,
     editEmployeeModal: boolean,
-    setEditEmployeesModal: React.Dispatch<React.SetStateAction<boolean>>;
+    setEditEmployeesModal: React.Dispatch<React.SetStateAction<boolean>>,
+    deleteEmployeeModal: boolean,
+    setDeleteEmployeesModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const EmployeeTable = (Props:EmployeeTableProps) => {
 
-    const[editEmployee, setEditEmployee] = useState<IEmployee>(
+    const[targetEmployee, setTargetEmployee] = useState<IEmployee>(
         {
             employeeAddress:"",
             employeeName:"",
@@ -134,13 +137,23 @@ const EmployeeTable = (Props:EmployeeTableProps) => {
     }
 
     const handleEditModalClick = (employee:IEmployee) =>{
-        setEditEmployee({
+        setTargetEmployee({
             employeeAddress:employee.employeeAddress,
             employeeName:employee.employeeName,
             employeeSalary:employee.employeeSalary,
             id:employee.id
         })
         Props.setEditEmployeesModal(true);
+    }
+
+    const handleDeleteModalClick = (employee:IEmployee) =>{
+        setTargetEmployee({
+            employeeAddress:employee.employeeAddress,
+            employeeName:employee.employeeName,
+            employeeSalary:employee.employeeSalary,
+            id:employee.id
+        })
+        Props.setDeleteEmployeesModal(true);
     }
 
 
@@ -172,7 +185,7 @@ const EmployeeTable = (Props:EmployeeTableProps) => {
                                     <Action>
                                         <ViewIcon/>
                                         <PencilIcon onClick={()=>handleEditModalClick(employee)}/>
-                                        <TrashIcon/>
+                                        <TrashIcon onClick={()=>handleDeleteModalClick(employee)}/>
                                     </Action>
                                 </TableRow>
                             )
@@ -185,7 +198,10 @@ const EmployeeTable = (Props:EmployeeTableProps) => {
                 Props.addEmployeeModal ? <AddEmployeeModal setAddEmployeesModal={Props.setAddEmployeesModal}/> : <div></div>
             }
             {
-                Props.editEmployeeModal ? <EditEmployeeModal employee={editEmployee} setEditEmployeesModal={Props.setEditEmployeesModal}/> : <div></div>
+                Props.editEmployeeModal ? <EditEmployeeModal employee={targetEmployee} setEditEmployeesModal={Props.setEditEmployeesModal}/> : <div></div>
+            }
+            {
+                Props.deleteEmployeeModal ? <DeleteEmployeeModal employee={targetEmployee} setDeleteEmployeesModal={Props.setDeleteEmployeesModal}/> : <div></div>
             }
         </Wrapper>
     )

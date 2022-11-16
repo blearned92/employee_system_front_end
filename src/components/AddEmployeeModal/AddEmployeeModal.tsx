@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import styled from "styled-components";
-import { IEmployee } from "../../../models/IEmployee";
+import { IEmployee } from "../../models/IEmployee";
 
 const Wrapper = styled.div`
     position: fixed;
@@ -17,13 +17,19 @@ const Wrapper = styled.div`
 const Header = styled.div`
     width: 100%;
     display: flex;
-    justify-content: right;
+    justify-content: space-between;
+    background-color: gray;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 `
 
 const Exit = styled.button`
     margin: 5px;
     cursor: pointer;
 `
+const Title = styled.p`
+    margin: 5px;
+`;
 
 const Form = styled.form`
     height: 210px;
@@ -118,14 +124,15 @@ const AddEmployee = (Props:ModalProps) => {
         <Wrapper>
             <Form onSubmit={onSubmit}>
                 <Header>
+                    <Title>Add New Employee</Title>
                     <Exit onClick={()=>{handleModalClick()}}>Back</Exit>
                 </Header>
                 <Label>Name</Label>
-                <Input type="text" onChange={updateEmployeeName}/>
+                <Input type="text" maxLength={100} onChange={updateEmployeeName}/>
                 <Label>Address</Label>
-                <Input type="text" onChange={updateEmployeeAddress}/>
+                <Input type="text" maxLength={300} onChange={updateEmployeeAddress}/>
                 <Label>Salary</Label>
-                <Input type="number" onChange={updateEmployeeSalary}/>
+                <Input type="number" min="0" max="10000000" onChange={updateEmployeeSalary}/>
                 <Submit className="btn" type="submit" value="Submit"/>
             </Form>
         </Wrapper>

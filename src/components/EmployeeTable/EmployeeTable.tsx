@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import { IEmployee } from "../../models/IEmployee";
-import AddEmployeeModal from "./AddEmployeeModal/AddEmployeeModal";
+import AddEmployeeModal from "../AddEmployeeModal/AddEmployeeModal";
+import { RemoveRedEye, Create, Delete } from "@mui/icons-material";
+import EditEmployeeModal from "../EditEmployeeModal/EditEmployeeModal";
+import { useState } from "react";
 
 const Wrapper = styled.div`
     width: 100%;
@@ -89,18 +92,55 @@ const Action = styled(TableData)`
     width: 17%; 
 `;
 
+const ViewIcon = styled(RemoveRedEye)`
+    color: #0dbcff;
+    padding-right: 5px;
+    cursor: pointer;
+`;
+
+const PencilIcon = styled(Create)`
+    color: #0dbcff;
+    padding-right: 5px;
+    cursor: pointer;
+`;
+
+const TrashIcon = styled(Delete)`
+    color: #0dbcff;
+    cursor: pointer;
+`;
+
 type EmployeeTableProps = {
     employees: IEmployee[],
     setEmployees: React.Dispatch<React.SetStateAction<IEmployee[]>>,
     addEmployeeModal: boolean,
-    setAddEmployeesModal: React.Dispatch<React.SetStateAction<boolean>>;
+    setAddEmployeesModal: React.Dispatch<React.SetStateAction<boolean>>,
+    editEmployeeModal: boolean,
+    setEditEmployeesModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const EmployeeTable = (Props:EmployeeTableProps) => {
 
+    const[editEmployee, setEditEmployee] = useState<IEmployee>(
+        {
+            employeeAddress:"",
+            employeeName:"",
+            employeeSalary:0,
+            id:0
+        }
+    );
     //sets an empty array of employees to begin with    
-    const handleModalClick = () =>{
+    const handleAddModalClick = () =>{
         Props.setAddEmployeesModal(true);
+    }
+
+    const handleEditModalClick = (employee:IEmployee) =>{
+        setEditEmployee({
+            employeeAddress:employee.employeeAddress,
+            employeeName:employee.employeeName,
+            employeeSalary:employee.employeeSalary,
+            id:employee.id
+        })
+        Props.setEditEmployeesModal(true);
     }
 
 
@@ -108,7 +148,7 @@ const EmployeeTable = (Props:EmployeeTableProps) => {
         <Wrapper>
             <Header>
                <Title>Employees Details</Title> 
-               <Button onClick={()=>handleModalClick()}><b>+</b> Add New Employee</Button>
+               <Button onClick={()=>handleAddModalClick()}><b>+</b> Add New Employee</Button>
             </Header>
             <Table>
              <TableHead>
@@ -129,7 +169,11 @@ const EmployeeTable = (Props:EmployeeTableProps) => {
                                     <Name>{employee.employeeName}</Name>
                                     <Address>{employee.employeeAddress}</Address>
                                     <Salary>{employee.employeeSalary}</Salary>
-                                    <Action>Actions go here</Action>
+                                    <Action>
+                                        <ViewIcon/>
+                                        <PencilIcon onClick={()=>handleEditModalClick(employee)}/>
+                                        <TrashIcon/>
+                                    </Action>
                                 </TableRow>
                             )
                             // return <p key={employee.id}>{employee.employeeName}</p>
@@ -139,6 +183,9 @@ const EmployeeTable = (Props:EmployeeTableProps) => {
             </Table>
             {
                 Props.addEmployeeModal ? <AddEmployeeModal setAddEmployeesModal={Props.setAddEmployeesModal}/> : <div></div>
+            }
+            {
+                Props.editEmployeeModal ? <EditEmployeeModal employee={editEmployee} setEditEmployeesModal={Props.setEditEmployeesModal}/> : <div></div>
             }
         </Wrapper>
     )

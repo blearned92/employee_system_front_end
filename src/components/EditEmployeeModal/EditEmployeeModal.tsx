@@ -2,7 +2,6 @@ import axios from "axios";
 import { useState } from "react";
 import styled from "styled-components";
 import { IEmployee } from "../../models/IEmployee";
-import Employee from "../Employee/Employee";
 
 const Wrapper = styled.div`
     position: fixed;
@@ -126,7 +125,7 @@ const EditEmployee = (Props:ModalProps) => {
         <Wrapper>
             <Form onSubmit={onSubmit}>
                 <Header>
-                    <Title>Edit Employee</Title>
+                    <Title>Edit Employee <b>(EmpID #{editEmployee.id}) - {editEmployee.employeeName}</b></Title>
                     <Exit onClick={()=>{handleModalClick()}}>Back</Exit>
                 </Header>
                 <Label>Name</Label>

@@ -1,6 +1,9 @@
+import { IAddress } from "./IAddress"
+
 export interface IEmployee {
-    employeeAddress:String,
-    employeeName:String,
-    employeeSalary:number,
+    firstName:String,
+    lastName:String,
+    address: IAddress,
+    salary:number,
     id:number
 }

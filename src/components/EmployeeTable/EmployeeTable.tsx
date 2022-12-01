@@ -125,9 +125,16 @@ const EmployeeTable = (Props:EmployeeTableProps) => {
 
     const[targetEmployee, setTargetEmployee] = useState<IEmployee>(
         {
-            employeeAddress:"",
-            employeeName:"",
-            employeeSalary:0,
+            firstName:"",
+            lastName:"",
+            address: {
+                street:"",
+                city:"",
+                state:"",
+                zipcode:"",
+                id:0
+            },
+            salary:0,
             id:0
         }
     );
@@ -138,9 +145,16 @@ const EmployeeTable = (Props:EmployeeTableProps) => {
 
     const handleEditModalClick = (employee:IEmployee) =>{
         setTargetEmployee({
-            employeeAddress:employee.employeeAddress,
-            employeeName:employee.employeeName,
-            employeeSalary:employee.employeeSalary,
+            firstName:employee.firstName,
+            lastName:employee.lastName,
+            address: {
+                street:employee.address.street,
+                city:employee.address.city,
+                state:employee.address.state,
+                zipcode:employee.address.zipcode,
+                id:employee.address.id
+            },
+            salary:employee.salary,
             id:employee.id
         })
         Props.setEditEmployeesModal(true);
@@ -148,9 +162,16 @@ const EmployeeTable = (Props:EmployeeTableProps) => {
 
     const handleDeleteModalClick = (employee:IEmployee) =>{
         setTargetEmployee({
-            employeeAddress:employee.employeeAddress,
-            employeeName:employee.employeeName,
-            employeeSalary:employee.employeeSalary,
+            firstName:employee.firstName,
+            lastName:employee.lastName,
+            address: {
+                street:employee.address.street,
+                city:employee.address.city,
+                state:employee.address.state,
+                zipcode:employee.address.zipcode,
+                id:employee.address.id
+            },
+            salary:employee.salary,
             id:employee.id
         })
         Props.setDeleteEmployeesModal(true);
@@ -179,9 +200,13 @@ const EmployeeTable = (Props:EmployeeTableProps) => {
                             return (
                                 <TableRow key={employee.id}>
                                     <ID>{employee.id}</ID>
-                                    <Name>{employee.employeeName}</Name>
-                                    <Address>{employee.employeeAddress}</Address>
-                                    <Salary>{employee.employeeSalary}</Salary>
+                                    <Name>{employee.firstName + " " + employee.lastName}</Name>
+                                    <Address>{employee.address.street + ", "
+                                        + employee.address.city + ", "
+                                        + employee.address.state + ", "
+                                        + employee.address.zipcode                                
+                                    }</Address>
+                                    <Salary>{employee.salary}</Salary>
                                     <Action>
                                         <ViewIcon/>
                                         <PencilIcon onClick={()=>handleEditModalClick(employee)}/>

@@ -68,7 +68,7 @@ const DeleteEmployee = (Props:ModalProps) => {
     }
 
     const onSubmitYes = () => {
-        axios.delete(`http://localhost:5000/employee/delete/${Props.employee.employeeName.toString().replaceAll(' ', '%20')}`)
+        axios.delete(`http://localhost:5000/employee/delete/${Props.employee.id}`)
           .then(function (response) {
             console.log(response);
             Props.setDeleteEmployeesModal(false);
@@ -90,7 +90,7 @@ const DeleteEmployee = (Props:ModalProps) => {
                     <Title>Remove Employee</Title>
                     <Exit onClick={()=>{handleModalClick()}}>Back</Exit>
                 </Header>
-                <p>Delete Employee <b>(EmpID #{Props.employee.id}) - {Props.employee.employeeName}</b> ?</p>
+                <p>Delete Employee <b>(EmpID #{Props.employee.id}) - {Props.employee.firstName + " " + Props.employee.lastName}</b> ?</p>
                 <ButtonContainer>
                     <Submit onClick={()=>{onSubmitYes()}}>Yes</Submit>
                     <Submit onClick={()=>{onSubmitNo()}}>No</Submit>

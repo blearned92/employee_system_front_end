@@ -32,7 +32,7 @@ const Title = styled.p`
 `;
 
 const Form = styled.form`
-    height: 210px;
+    height: 380px;
     width: 450px;
     background-color: #b7b0b0;
     border-radius: 10px;
@@ -68,36 +68,128 @@ const EditEmployee = (Props:ModalProps) => {
 
     const[editEmployee, setEditEmployee] = useState<IEmployee>(
         {
-            employeeAddress:Props.employee.employeeAddress,
-            employeeName:Props.employee.employeeName,
-            employeeSalary:Props.employee.employeeSalary,
+            firstName:Props.employee.firstName,
+            lastName:Props.employee.lastName,
+            address: {
+                street:Props.employee.address.street,
+                city:Props.employee.address.city,
+                state:Props.employee.address.state,
+                zipcode:Props.employee.address.zipcode,
+                id:Props.employee.address.id
+            },
+            salary:Props.employee.salary,
             id:Props.employee.id
         }
     );
 
-    const updateEmployeeName = (e:React.ChangeEvent<HTMLInputElement>) => {
+    const updateEmployeeFirstName = (e:React.ChangeEvent<HTMLInputElement>) => {
         setEditEmployee({
-            employeeAddress:editEmployee.employeeAddress,
-            employeeName:e.target.value,
-            employeeSalary:editEmployee.employeeSalary,
+            firstName:e.target.value,
+            lastName:editEmployee.lastName,
+            address: {
+                street:editEmployee.address.street,
+                city:editEmployee.address.city,
+                state:editEmployee.address.state,
+                zipcode:editEmployee.address.zipcode,
+                id:editEmployee.address.id
+            },
+            salary:editEmployee.salary,
             id:editEmployee.id
         })
     } 
 
-    const updateEmployeeAddress = (e:React.ChangeEvent<HTMLInputElement>) => {
+    const updateEmployeeLastName = (e:React.ChangeEvent<HTMLInputElement>) => {
         setEditEmployee({
-            employeeAddress:e.target.value,
-            employeeName:editEmployee.employeeName,
-            employeeSalary:editEmployee.employeeSalary,
+            firstName:editEmployee.firstName,
+            lastName:e.target.value,
+            address: {
+                street:editEmployee.address.street,
+                city:editEmployee.address.city,
+                state:editEmployee.address.state,
+                zipcode:editEmployee.address.zipcode,
+                id:editEmployee.address.id
+            },
+            salary:editEmployee.salary,
+            id:editEmployee.id
+        })
+    } 
+
+    const updateEmployeeStreet = (e:React.ChangeEvent<HTMLInputElement>) => {
+        setEditEmployee({
+            firstName:editEmployee.firstName,
+            lastName:editEmployee.lastName,
+            address: {
+                street:e.target.value,
+                city:editEmployee.address.city,
+                state:editEmployee.address.state,
+                zipcode:editEmployee.address.zipcode,
+                id:editEmployee.address.id
+            },
+            salary:editEmployee.salary,
             id:editEmployee.id
         })
     }
 
+    const updateEmployeeCity = (e:React.ChangeEvent<HTMLInputElement>) => {
+        setEditEmployee({
+            firstName:editEmployee.firstName,
+            lastName:editEmployee.lastName,
+            address: {
+                street:editEmployee.address.street,
+                city:e.target.value,
+                state:editEmployee.address.state,
+                zipcode:editEmployee.address.zipcode,
+                id:editEmployee.address.id
+            },
+            salary:editEmployee.salary,
+            id:editEmployee.id
+        })
+    }
+
+    const updateEmployeeState = (e:React.ChangeEvent<HTMLInputElement>) => {
+        setEditEmployee({
+            firstName:editEmployee.firstName,
+            lastName:editEmployee.lastName,
+            address: {
+                street:editEmployee.address.street,
+                city:editEmployee.address.city,
+                state:e.target.value,
+                zipcode:editEmployee.address.zipcode,
+                id:editEmployee.address.id
+            },
+            salary:editEmployee.salary,
+            id:editEmployee.id
+        })
+    }
+
+    const updateEmployeeZip = (e:React.ChangeEvent<HTMLInputElement>) => {
+        setEditEmployee({
+            firstName:editEmployee.firstName,
+            lastName:editEmployee.lastName,
+            address: {
+                street:editEmployee.address.street,
+                city:editEmployee.address.city,
+                state:editEmployee.address.state,
+                zipcode:e.target.value,
+                id:editEmployee.address.id
+            },
+            salary:editEmployee.salary,
+            id:editEmployee.id
+        })
+    }
+    
     const updateEmployeeSalary = (e:React.ChangeEvent<HTMLInputElement>) => {
         setEditEmployee({
-            employeeAddress:editEmployee.employeeAddress,
-            employeeName:editEmployee.employeeName,
-            employeeSalary:+e.target.value,
+            firstName:editEmployee.firstName,
+            lastName:editEmployee.lastName,
+            address: {
+                street:editEmployee.address.street,
+                city:editEmployee.address.city,
+                state:editEmployee.address.state,
+                zipcode:editEmployee.address.zipcode,
+                id:editEmployee.address.id
+            },
+            salary:+e.target.value,
             id:editEmployee.id
         })
     }
@@ -106,10 +198,17 @@ const EditEmployee = (Props:ModalProps) => {
         e.preventDefault();
 
         axios.put('http://localhost:5000/employee/update', {
-            id:editEmployee.id,
-            employeeName:editEmployee.employeeName,
-            employeeAddress:editEmployee.employeeAddress,
-            employeeSalary:editEmployee.employeeSalary
+            firstName:editEmployee.firstName,
+            lastName:editEmployee.lastName,
+            address: {
+                street:editEmployee.address.street,
+                city:editEmployee.address.city,
+                state:editEmployee.address.state,
+                zipcode:editEmployee.address.zipcode,
+                id:editEmployee.address.id
+            },
+            salary:editEmployee.salary,
+            id:editEmployee.id
           })
           .then(function (response) {
             console.log(response);
@@ -125,15 +224,24 @@ const EditEmployee = (Props:ModalProps) => {
         <Wrapper>
             <Form onSubmit={onSubmit}>
                 <Header>
-                    <Title>Edit Employee <b>(EmpID #{editEmployee.id}) - {editEmployee.employeeName}</b></Title>
+                    <Title>Edit Employee <b>(EmpID #{editEmployee.id}) - {editEmployee.firstName + " " + editEmployee.lastName}</b></Title>
                     <Exit onClick={()=>{handleModalClick()}}>Back</Exit>
                 </Header>
-                <Label>Name</Label>
-                <Input type="text" maxLength={100} value={editEmployee.employeeName.toString()} onChange={updateEmployeeName}/>
-                <Label>Address</Label>
-                <Input type="text" maxLength={300} value={editEmployee.employeeAddress.toString()} onChange={updateEmployeeAddress}/>
+                <Label>First Name</Label>
+                <Input type="text" maxLength={50} value={editEmployee.firstName.toString()} onChange={updateEmployeeFirstName}/>
+                <Label>Last Name</Label>
+                <Input type="text" maxLength={50} value={editEmployee.lastName.toString()} onChange={updateEmployeeLastName}/>
+                <Label>Street</Label>
+                <Input type="text" maxLength={100} value={editEmployee.address.street.toString()} onChange={updateEmployeeStreet}/>
+                <Label>City</Label>
+                <Input type="text" maxLength={100} value={editEmployee.address.city.toString()} onChange={updateEmployeeCity}/>
+                <Label>State</Label>
+                <Input type="text" maxLength={100} value={editEmployee.address.state.toString()} onChange={updateEmployeeState}/>
+                <Label>Zip</Label>
+                <Input type="text" maxLength={5} value={editEmployee.address.zipcode.toString()} onChange={updateEmployeeZip}/>
+                
                 <Label>Salary</Label>
-                <Input type="number" min="0" max="10000000" value={editEmployee.employeeSalary.toString()} onChange={updateEmployeeSalary}/>
+                <Input type="number" min="0" max="10000000" value={editEmployee.salary.toString()} onChange={updateEmployeeSalary}/>
                 <Submit className="btn" type="submit" value="Submit"/>
             </Form>
         </Wrapper>

@@ -26,7 +26,7 @@ const Employee = () => {
         setEmployees(employeeList);
     } 
     getAllEmployee();
-},[addEmployeeModal, editEmployeeModal])
+},[addEmployeeModal, editEmployeeModal, deleteEmployeeModal])
 
   return (
     <Wrapper>
